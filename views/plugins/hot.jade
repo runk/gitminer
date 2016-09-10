@@ -1,0 +1,16 @@
+.report-hot
+  table.table
+    thead
+      tr
+        th Ranking
+        th Filename
+        th Times edited
+        th Total lines edited
+
+    tbody
+      each row, index in hot
+        tr
+          td #{index + 1}.
+          td #{row.file}
+          td #{format(row.times)}
+          td #{format(row.lines)}

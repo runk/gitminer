@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "jade": "latest",
+    "lodash": "latest"
+  }
+}

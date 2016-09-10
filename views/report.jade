@@ -1,0 +1,62 @@
+extends layout
+
+append stylesheets
+  style.
+    .nav-tabs li.active a { font-weight: bold; }
+    .tab-content { display: none; margin-top: 20px; }
+    .tab-content > div { display: none; }
+
+
+block body
+
+  .container.wide
+
+    .row
+      .col-lg-12
+
+        .page-header
+          h1 Git Miner
+          .lead Dig into guts of git history
+
+        .row
+          .col-lg-12
+            .alert.alert-success(role="alert")
+              | Location of this report is&nbsp;
+              strong secret and hidden
+              |  from search engines but visible to anyone you give the URL.
+
+            div(role="tabpanel")
+
+              ul(class="nav nav-tabs", role="tablist")
+                li(role="presentation" class="active")
+                  a(href="#timeline" tab-name="timeline" role="tab" data-toggle="tab") Timeline
+                li(role="presentation")
+                  a(href="#hot" tab-name="hot" role="tab" data-toggle="tab") Hot Files
+                li(role="presentation")
+                  a(href="#responsible" tab-name="responsible" role="tab" data-toggle="tab") Responsibilities
+                li(role="presentation")
+                  a(href="#sloc" tab-name="sloc" role="tab" data-toggle="tab") Lines of code
+
+              div(class="tab-content")
+                div(tab-name="timeline"): include plugins/timeline
+                div(tab-name="hot"): include plugins/hot
+                div(tab-name="responsible"): include plugins/responsible
+                div(tab-name="sloc"): include plugins/sloc
+
+  script.
+    //- Tabs
+    $('.tab-content').show()
+    $('.nav.nav-tabs a').click(function(e) {
+      e.preventDefault()
+      $('.nav.nav-tabs a').removeClass('active')
+      $(this).addClass('active')
+      $('.tab-content > div').hide()
+      $('.tab-content > div[tab-name="' + $(this).attr('tab-name') + '"]').show()
+      window.location.hash = $(this).attr('tab-name')
+    })
+    //- restore last tab
+    var tabName = window.location.hash.substr(1)
+    if ((tab = $('.nav.nav-tabs a[tab-name="' + tabName + '"]')).length) tab.click()
+    else (tab = $('.nav.nav-tabs a[tab-name="timeline"]')).click()
+
+

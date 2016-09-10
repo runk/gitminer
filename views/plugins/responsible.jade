@@ -1,0 +1,26 @@
+style.
+  .report-responsibilities .author {  padding: 10px 0; }
+  .report-responsibilities .author img { height: 30px}
+  .report-responsibilities h4 { height: 30px; margin-top: 10px}
+
+.report-responsibilities
+  each files, author in responsible
+    - var author = parseAuthor(author)
+    .author
+      h4
+        | !{gravatar(author.email)}
+        | #{author.name}
+        | &nbsp;
+        small #{author.email}
+    table.table
+      tr
+        th #
+        th Times
+        th Lines
+        th Filename
+      each row, index in files
+        tr
+          td #{index + 1}.
+          td #{format(row.times)}
+          td #{format(row.lines)}
+          td #{row.file}

@@ -1,0 +1,63 @@
+style.
+  .report-timeline .bars { width: 110px; }
+  .report-timeline .bar { height: 15px; float: left; }
+  .report-timeline .added { background: #6c6; }
+  .report-timeline .removed { background: #c30; }
+  .report-timeline .caption { font-size: 11px; }
+
+  .report-timeline .dates { width: auto; overflow-x: scroll; overflow-y: hidden; white-space: nowrap; }
+
+  .report-timeline .table { word-break: break-all; }
+  .report-timeline .row :first-child { padding-right: 0}
+  .report-timeline .row :last-child { padding-left: 0}
+  .report-timeline .table.dates td { height: 47px; }
+
+  .report-timeline table.authors {margin: 0}
+  .report-timeline ul.authors { list-style: none; font-size: 11px; margin: 0; padding: 0; }
+  .report-timeline ul.authors li { height: 47px; border-top: 1px solid #ddd; padding: 7px;}
+  .report-timeline ul.authors li:first-child { margin-top: -1px; }
+  .report-timeline ul.authors li .avatar { width: 35px; float: left; }
+  .report-timeline ul.authors li .avatar img { height: 25px; width: 25px; margin-left: 5px; margin-right: 5px; margin-top: 3px; }
+  .report-timeline ul.authors li .author { margin-left: 40px; }
+  .report-timeline ul.authors li .author div { height: 15px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+
+.report-timeline
+  .row
+    .col-md-4
+      table.table.authors
+        thead
+          tr
+            th(colspan=2) Author
+
+      ul.authors
+        each author in timeline.authors
+          - author = parseAuthor(author)
+          li
+            .avatar !{gravatar(author.email)}
+            .author
+              .name #{author.name}
+              .email(title=author.email) #{author.email}
+
+    .col-md-8
+      .dates
+        table.table.dates
+          thead
+            tr
+              each values, date in timeline.result
+                th #{date}
+          tbody
+            each author in timeline.authors
+              tr
+                each stats, date in timeline.result
+                  td
+                    if stats[author]
+                      .caption +#{format(+stats[author]['+'])} -#{format(stats[author]['-'])}
+                      - added   = stats[author]['+'] / timeline.max[date] * 100
+                      - removed = stats[author]['-'] / timeline.max[date] * 100
+                      .bars
+                        .bar.added(style="width: #{added}%")
+                        .bar.removed(style="width: #{removed}%")
+
+  .row
+    p &nbsp;

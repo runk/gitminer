@@ -1,0 +1,38 @@
+{
+  "name": "gitminer",
+  "version": "1.0.0",
+  "homepage": "https://github.com/runk/gitminer",
+  "description": "Git history analyser",
+  "author": "Dmitry Shirokov <deadrunk@gmail.com>",
+  "contributors": [],
+  "dependencies": {
+    "coffee-script": ">=1.8.0",
+    "jade": ">=1.7.0",
+    "lodash": ">=2.4.1",
+    "async": ">=0.9.0",
+    "express": ">=4.10.0",
+    "body-parser": "1.9.1",
+    "aws-sdk": ">=2.0.23"
+  },
+  "devDependencies": {
+    "supervisor": "latest"
+  },
+  "scripts": {
+    "start": "coffee index.coffee",
+    "watch": "supervisor -i test,node_modules -e js,coffee,json coffee index.coffee"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:runk/gitminer.git"
+  },
+  "bugs": {
+    "mail": "deadrunk@gmail.com",
+    "url": "http://github.com/runk/gitminer/issues"
+  },
+  "main": "index.js",
+  "engines": {
+    "node": ">=4",
+    "npm": ">=1"
+  },
+  "license": "MIT"
+}

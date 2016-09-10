@@ -1,0 +1,77 @@
+
+style.
+  #chart-sloc { width: 900px }
+
+
+script.
+  $(function () {
+
+
+    var data = !{JSON.stringify(sloc)};
+    var list = []
+    for (var date in data)
+      list.push({date: date, stats: data[date]})
+    list.sort(function(a, b) { return a.date.localeCompare(b.date) });
+
+    var categories = list.map(function(item) { return item.date; });
+    var add = list.map(function(item) { return item.stats['+'] || 1; });
+    var rm = list.map(function(item) { return item.stats['-'] || 1; });
+
+
+    new Highcharts.Chart({
+      chart: {
+        renderTo: 'chart-sloc',
+        type: 'areaspline'
+      },
+
+      title: {
+        text: 'Added vs Removed Code'
+      },
+
+      xAxis: {
+        categories: categories,
+        labels: {
+          enabled: false
+        }
+      },
+
+      yAxis: {
+        title: {
+          text: 'SLOC'
+        }
+      },
+
+      tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y} SLOC</b> ({point.percentage:.0f}%)<br/>',
+        shared: true
+      },
+
+      plotOptions: {
+        areaspline: {
+          stacking: 'percent',
+          lineWidth: 1,
+          states: {
+            hover: {
+              lineWidth: 1
+            }
+          }
+        }
+      },
+
+      series: [{
+        name: 'Added',
+        data: add,
+        color: '#55a532'
+      }, {
+        name: 'Removed',
+        data: rm,
+        color: '#bd2c00'
+      }]
+    });
+  });
+
+.report-sloc
+  .row
+    .col-md-12
+      .chart-box
+        #chart-sloc
